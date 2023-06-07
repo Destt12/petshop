@@ -42,6 +42,7 @@ urlpatterns = [
         #CRUD
         path('add/',add,name="add"),
         path('delate/<id>/', delate, name='delate'),
+        path('update/<id>/', update, name='update'),
 
 
         #CRUD CUPONES 

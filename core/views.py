@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
 from .serializers import *
 import requests
+
 # Create your views here.
 #VIEWSET QUE SE ENCARGA DE INTERCAMBIAR LA DATA
 
@@ -222,11 +223,20 @@ def product(request):
     productoAll = productos[:8]
     producto3 = productos[:3]
 
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(productoAll, 6)
+        productoAll = paginator.page(page)
+    except:
+        raise Http404
+
     data = {
         'tipo': tipos_producto,
         'listado': productoAll,
         'listado3': producto3,
-        'tipos_seleccionados': tipo_producto,  # Agregar los tipos seleccionados al contexto
+        'tipos_seleccionados': tipo_producto, 
+        'paginator': paginator, # Agregar los tipos seleccionados al contexto
     }
 
     return render(request, 'core/product.html', data)
@@ -370,6 +380,22 @@ def delate(request, id):
     producto.delete()
     return redirect(to = 'index')
 
+@login_required
+def update(request, id):
+    producto = Producto.objects.get(id=id)
+    data = {
+        'form': ProductoForm(instance =producto)
+    }
+
+    if request.method == 'POST':
+        formulario = ProductoForm(data = request.POST, files=request.FILES,instance=producto)
+        if formulario.is_valid():
+            formulario.save()
+            #data['msj'] = "Producto modificado correctamente"
+            messages.success(request, "Producto modificado correctamente") 
+            data['form'] = formulario
+    
+    return render(request, 'core/update-product.html', data)
 
 #CERRAR CREADOS POR REIKOM
 
