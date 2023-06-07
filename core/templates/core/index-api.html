@@ -1,0 +1,286 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %} 
+
+{% block contenido %}
+    <div class="hero-wrap" style="background-image: url({% static 'core/images/portada2.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-8 ftco-animate d-flex align-items-end">
+          	<div class="text w-100 text-center">
+	            <h1 class="mb-4">Unidos <span>por</span> un Bien <span>Animal</span>.</h1>
+	            <p><a href="#" class="btn btn-primary py-2 px-4">Comprar ahora</a> <a href="#" class="btn btn-white btn-outline-white py-2 px-4">Leer mas</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<section class="ftco-intro">
+		<div class="container">
+			<div class="row no-gutters">
+				<div class="col-md-4 d-flex">
+					<div class="intro d-lg-flex w-100 ftco-animate">
+						<div class="icon">
+							<span class="flaticon-support"></span>
+						</div>
+						<div class="text">
+							<h2>Soporte en línea 24/7</h2>
+							<p>Obtén asistencia ininterrumpida en cualquier momento del día con nuestro soporte 24/7 confiable.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 d-flex">
+					<div class="intro color-1 d-lg-flex w-100 ftco-animate">
+						<div class="icon">
+							<span class="flaticon-cashback"></span>
+						</div>
+						<div class="text">
+							<h2>Garantía de devolución de dinero</h2>
+							<p>Tu satisfacción garantizada: devuelve tu compra y recupera tu dinero con nuestra garantía de devolución.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 d-flex">
+					<div class="intro color-2 d-lg-flex w-100 ftco-animate">
+						<div class="icon">
+							<span class="flaticon-free-delivery"></span>
+						</div>
+						<div class="text">
+							<h2>Envío gratuito y devolución</h2>
+							<p>Disfruta de envío y devolución gratuitos en todas tus compras con nosotros, sin costo adicional.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+    	<section class="ftco-section ftco-no-pb" id="sobre-nosotros">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 img img-3 d-flex justify-content-center align-items-center" style="background-image: url({% static 'core/images/aboutMe.png' %});">
+					</div>
+					<div class="col-md-6 wrap-about pl-md-5 ftco-animate py-5">
+	          <div class="heading-section">
+	          	<span class="subheading">Desde 2023</span>
+	            <h2 class="mb-4">Conócenos: Luchando por los Animales</h2>
+				{% for aux in pj %}
+				<img src="{{aux.image}}">
+				{% endfor %}
+	            <p>Nosotros somos una Fundación de Animales sin Fines de Lucro comprometida con la protección y el bienestar animal. Nuestra misión es brindar un refugio seguro y amoroso para los animales en situación de vulnerabilidad, además de promover la adopción responsable y fomentar la conciencia sobre el respeto hacia todas las formas de vida. </p>
+	            <p>Trabajamos incansablemente para garantizar el cuidado, la atención veterinaria y la alimentación adecuada de nuestros protegidos, y buscamos crear un mundo donde todos los animales puedan vivir dignamente, libres de maltrato y abandono. ¡Únete a nosotros en esta noble causa!</p>
+	            <p class="year">
+	            	<strong class="number" data-number="115">0</strong>
+		            <span>Animales que han recibido nuestro apoyo.</span>
+	            </p>
+	          </div> 
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ftco-section ftco-no-pb">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-2 col-md-4">
+						<div class="sort w-100 text-center ftco-animate">
+							<a href="{% url 'product' %}?tipo_producto=Alimento+para+gatos">
+								<div class="img" style="background-image: url({% static 'core/images/categoria1.jpg' %});"></div>
+								<h3>Alimento gatos</h3>
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-4">
+						<div class="sort w-100 text-center ftco-animate">
+							<a href="{% url 'product' %}?tipo_producto=Alimento+para+perros">
+								<div class="img" style="background-image: url({% static 'core/images/categoria2.jpeg' %});"></div>
+								<h3>Alimento perros</h3>
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-4">
+						<div class="sort w-100 text-center ftco-animate">
+							<a href="{% url 'product' %}?tipo_producto=correas">
+								<div class="img" style="background-image: url({% static 'core/images/categoria3.jpg' %});"></div>
+								<h3>Correas</h3>
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-4">
+						<div class="sort w-100 text-center ftco-animate">
+							<a href="{% url 'product' %}?tipo_producto=identificaciones">
+								<div class="img" style="background-image: url({% static 'core/images/categoria4.jpg' %});"></div>
+								<h3>Identificaciones</h3>
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-4">
+						<div class="sort w-100 text-center ftco-animate">
+							<a href="{% url 'product' %}?tipo_producto=ropita">
+								<div class="img" style="background-image: url({% static 'core/images/categoria5.jpg' %} );"></div>
+								<h3>Ropita</h3>
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-4">
+						<div class="sort w-100 text-center ftco-animate">
+							<a href="{% url 'product' %}?tipo_producto=bandanas">
+								<div class="img" style="background-image: url({% static 'core/images/categoria6.jpeg' %});"></div>
+								<h3>Bandanas</h3>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+
+		<section class="ftco-section">
+			<div class="container">
+				<div class="row justify-content-center pb-5">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+          	<span class="subheading">Nuestras deliciosas ofertas, aprovecha la oportunidad</span>
+			<h6> valor dolar: {{ moneda.dolar.valor }}</h6>
+            <h2>Productos</h2>
+          </div>
+        </div>
+				<div class="row">
+				<!--poner el for aqui-->
+				{% for aux in listado %}
+					<div class="col-md-3 d-flex">
+						<div class="product ftco-animate">
+							{% if aux.imagen %}
+							<div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen }});">
+							{% else %}
+							<div class="img d-flex align-items-center justify-content-center" style="background-image: url(images/prod-1.jpg);"></div>
+							{% endif %}
+								<div class="desc">
+									<p class="meta-prod d-flex">
+										<form action="{% url 'agregar' aux.id %}" method="post">
+											{% csrf_token %}
+											<a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="d-flex align-items-center justify-content-center">
+											  <span class="flaticon-shopping-bag"></span>
+											</a>
+										  </form>
+										<a href="{% url 'product-details' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
+										<a href="#" onclick="eliminarProducto({{ aux.id }})" class="d-flex align-items-center justify-content-center"><span class="fa fa-trash"></span></a>
+									</p>
+								</div>
+							</div>
+							<div class="text text-center">
+								<span class="sale">Stock: {{ aux.stock }}</span>
+								<span class="category">{{ aux.tipo.descripcion }}</span>
+								<h2>{{ aux.nombre }}</h2>
+								<p class="mb-0"><span class="price">${{ aux.precio | intcomma }}</span> </p>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				<!--fin de el for-->
+				<div class="row justify-content-center">
+					<div class="col-md-4">
+						<a href="product.html" class="btn btn-primary d-block">View All Products <span class="fa fa-long-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+		</section>
+  
+		<section class="ftco-section testimony-section img" style="background-image: url({% static 'core/images/fondo1.jpeg' %});">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row justify-content-center mb-5">
+					<div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+						<span class="subheading">Testimonio</span>
+						<h2 class="mb-3">Clientes Satisfechos</h2>
+					</div>
+				</div>
+				<div class="row ftco-animate">
+					<div class="col-md-12">
+						<div class="carousel-testimony owl-carousel ftco-owl">
+							<div class="item">
+								<div class="testimony-wrap py-4">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+									<div class="text">
+										<p class="mb-4">Muy lejos, detrás de las montañas de palabras, lejos de los países Vokalia y Consonantia, viven los textos ciegos.</p>
+										<div class="d-flex align-items-center">
+											<div class="user-img" style="background-image: url({% static 'core/images/person_1.jpg' %})"></div>
+											<div class="pl-3">
+												<p class="name">Roger Scott</p>
+												<span class="position">Gerente de Marketing</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="testimony-wrap py-4">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+									<div class="text">
+										<p class="mb-4">Muy lejos, detrás de las montañas de palabras, lejos de los países Vokalia y Consonantia, viven los textos ciegos.</p>
+										<div class="d-flex align-items-center">
+											<div class="user-img" style="background-image: url({% static 'core/images/person_2.jpg' %})"></div>
+											<div class="pl-3">
+												<p class="name">Roger Scott</p>
+												<span class="position">Gerente de Marketing</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="testimony-wrap py-4">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+									<div class="text">
+										<p class="mb-4">Muy lejos, detrás de las montañas de palabras, lejos de los países Vokalia y Consonantia, viven los textos ciegos.</p>
+										<div class="d-flex align-items-center">
+											<div class="user-img" style="background-image: url({% static 'core/images/person_3.jpg' %})"></div>
+											<div class="pl-3">
+												<p class="name">Roger Scott</p>
+												<span class="position">Gerente de Marketing</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="testimony-wrap py-4">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+									<div class="text">
+										<p class="mb-4">Muy lejos, detrás de las montañas de palabras, lejos de los países Vokalia y Consonantia, viven los textos ciegos.</p>
+										<div class="d-flex align-items-center">
+											<div class="user-img" style="background-image: url(images/person_1.jpg)"></div>
+											<div class="pl-3">
+												<p class="name">Roger Scott</p>
+												<span class="position">Gerente de Marketing</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="testimony-wrap py-4">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+									<div class="text">
+										<p class="mb-4">Muy lejos, detrás de las montañas de palabras, lejos de los países Vokalia y Consonantia, viven los textos ciegos.</p>
+										<div class="d-flex align-items-center">
+											<div class="user-img" style="background-image: url({% static 'core/images/person_2.jpg' %})"></div>
+											<div class="pl-3">
+												<p class="name">Roger Scott</p>
+												<span class="position">Gerente de Marketing</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+
+{% endblock %}
+{% block js %}
+{% endblock %}

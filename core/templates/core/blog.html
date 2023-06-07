@@ -1,0 +1,125 @@
+{% extends 'core/base.html' %}
+{% load static %}
+ 
+
+{% block contenido %}  
+<section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'core/images/bg_2.jpg' %});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-center">
+			<div class="col-md-9 ftco-animate mb-5 text-center">
+				<p class="breadcrumbs mb-0"><span class="mr-2"><a href="{% url 'index' %}">Inicio <i class="fa fa-chevron-right"></i></a></span> <span>Blog <i class="fa fa-chevron-right"></i></span></p>
+				<h2 class="mb-0 bread">Blog</h2>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ftco-section">
+	<div class="container">
+		<div class="row d-flex">
+			<div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+				<div class="blog-entry d-md-flex">
+					<a href="noticia1.html" class="block-20 img" style="background-image: url({% static 'core/images/image_2.jpg' %});">
+					</a>
+					<div class="text p-4 bg-light">
+						<div class="meta">
+							<p><span class="fa fa-calendar"></span> 23 de abril de 2020</p>
+						</div>
+						<h3 class="heading mb-3"><a href="noticia1.html">La Historia de un Rescate de Animales en Peligro de Extinción</a></h3>
+						<p>Un pequeño río llamado Duden fluye cerca de su lugar y lo abastece de la regelialia necesaria.</p>
+						<a href="noticia1.html" class="btn-custom">Continuar <span class="fa fa-long-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+				<div class="blog-entry d-md-flex">
+					<a href="noticia2.html" class="block-20 img" style="background-image: url({% static 'core/images/image_1.jpg' %});">
+					</a>
+					<div class="text p-4 bg-light">
+						<div class="meta">
+							<p><span class="fa fa-calendar"></span> 23 de abril de 2020</p>
+						</div>
+						<h3 class="heading mb-3"><a href="noticia2.html">El Increíble Descubrimiento de una Nueva Especie de Mariposa</a></h3>
+						<p>Un pequeño río llamado Duden fluye cerca de su lugar y lo abastece de la regelialia necesaria.</p>
+						<a href="noticia2.html" class="btn-custom">Continuar <span class="fa fa-long-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+				<div class="blog-entry d-md-flex">
+					<a href="noticia3.html" class="block-20 img" style="background-image: url({% static 'core/images/image_3.jpg' %});">
+					</a>
+					<div class="text p-4 bg-light">
+						<div class="meta">
+							<p><span class="fa fa-calendar"></span> 23 de abril de 2020</p>
+						</div>
+						<h3 class="heading mb-3"><a href="noticia3.html">El Rescate de una Familia de Osos en Peligro</a></h3>
+						<p>Un pequeño río llamado Duden fluye cerca de su lugar y lo abastece de la regelialia necesaria.</p>
+						<a href="noticia3.html" class="btn-custom">Continuar <span class="fa fa-long-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+				<div class="blog-entry d-md-flex">
+					<a href="noticia4.html" class="block-20 img" style="background-image: url({% static 'core/images/image_4.jpg' %});">
+					</a>
+					<div class="text p-4 bg-light">
+						<div class="meta">
+							<p><span class="fa fa-calendar"></span> 23 de abril de 2020</p>
+						</div>
+						<h3 class="heading mb-3"><a href="noticia4.html">Los Esfuerzos para Proteger el Hábitat de los Elefantes Africanos</a></h3>
+						<p>Un pequeño río llamado Duden fluye cerca de su lugar y lo abastece de la regelialia necesaria.</p>
+						<a href="noticia4.html" class="btn-custom">Continuar <span class="fa fa-long-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+				<div class="blog-entry d-md-flex">
+					<a href="noticia5.html" class="block-20 img" style="background-image: url({% static 'core/images/image_5.jpg' %});">
+					</a>
+					<div class="text p-4 bg-light">
+						<div class="meta">
+							<p><span class="fa fa-calendar"></span> 23 de abril de 2020</p>
+						</div>
+						<h3 class="heading mb-3"><a href="noticia5.html">Descubriendo una Nueva Especie de Ave en la Selva Amazónica</a></h3>
+						<p>Un pequeño río llamado Duden fluye cerca de su lugar y lo abastece de la regelialia necesaria.</p>
+						<a href="noticia5.html" class="btn-custom">Continuar <span class="fa fa-long-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+				<div class="blog-entry d-md-flex">
+					<a href="noticia6.html" class="block-20 img" style="background-image: url('{% static 'core/images/image_6.jpg' %});">
+					</a>
+					<div class="text p-4 bg-light">
+						<div class="meta">
+							<p><span class="fa fa-calendar"></span> 23 de abril de 2020</p>
+						</div>
+						<h3 class="heading mb-3"><a href="noticia6.html">La Impactante Historia de una Tortuga Rescatada</a></h3>
+						<p>Un pequeño río llamado Duden fluye cerca de su lugar y lo abastece de la regelialia necesaria.</p>
+						<a href="noticia6.html" class="btn-custom">Continuar <span class="fa fa-long-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col text-center">
+				<div class="block-27">
+					<ul>
+						<li><a href="#">&lt;</a></li>
+						<li class="active"><span>1</span></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#">&gt;</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% endblock %}

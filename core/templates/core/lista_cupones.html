@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+
+
+{% endblock %}
+{% block contenido %}
+<section class="hero-wrap hero-wrap-3" style="background-image: url({% static 'core/images/portada2.jpg' %});" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-center">
+      <div class="col-md-9 ftco-animate mb-5 text-center">
+    
+        <h2 class="mb-0 bread">Listar Cupones</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<ul class="cupones-lista">
+    {% for cupon in cupones %}
+      <li class="cupon-item">
+        <div class="cupon-codigo">{{ cupon.codigo }}</div>
+        <div class="cupon-descuento">{{ cupon.descuento }}</div>
+        <div class="cupon-opciones">
+          <a href="{% url 'actualizar_cupon' cupon.id %}">Modificar</a>
+          <a onclick="eliminarCupones({{cupon.id}})" class="jijija">Eliminar</a>
+        </div>
+      </li>
+    {% empty %}
+      <li class="cupon-item empty">No hay cupones disponibles.</li>
+    {% endfor %}
+  </ul>
+  
+
+{% endblock %}
+{% block js %}
+
+
+
+  
+{% endblock %}

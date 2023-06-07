@@ -1,0 +1,48 @@
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Destt12/petshop.git
+git push -u origin main
+
+git remote add origin https://github.com/Destt12/petshop.git
+git branch -M main
+git push -u origin main
+
+#config global
+
+git config --global user.name "Destt12" ej
+git config --global user.email "Correo"
+#para revisar 
+git fetch
+
+
+#para crear una rama nueva
+git checkout -b "ramanueva"
+
+#para conectarse a una rama
+
+git checkout "ramanueva"
+
+#para revisar que archivos no se han guardado
+
+git status
+
+#para guardar archivos
+
+git add .
+
+#para hacer el commit
+
+git commit -m "comentario"
+
+#para subirlo 
+git pusj origin "nombrerama"
+
+#para bajarlo
+
+git pull origin "nombrerama"
+
+#para clonar un repositorio
+
+git clone "rutadelrepositorio"
