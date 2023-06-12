@@ -46,3 +46,5 @@ git pull origin "nombrerama"
 #para clonar un repositorio
 
 git clone "rutadelrepositorio"
+
+a -
