@@ -45,4 +45,4 @@ git pull origin "nombrerama"
 
 #para clonar un repositorio
 
-git clone "rutadelrepositorio"
+git clone -b "rama a clonar" https://github.com/Destt12/petshop.git
