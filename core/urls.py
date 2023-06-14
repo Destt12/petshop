@@ -23,9 +23,9 @@ urlpatterns = [
         path('contact/',contact,name="contact"),
         path('productSingle/',productSingle,name="productSingle"),
         path('product/',product,name="product"),
-        path('wishlist/',wishlist,name="wishlist"),
+        path('wishlist/',historial,name="historial"),
         path('product-details/<int:id>/', product_details, name='product-details'),
-
+        path('seguimiento/<int:seguimiento_id>/', cambiar_estado_seguimiento, name='cambiar_estado_seguimiento'),
 
 
         #cosas del carrito

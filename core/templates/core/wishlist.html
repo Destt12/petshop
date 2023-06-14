@@ -1,69 +1,81 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load humanize %}
-{% block css %}
-
-
-{% endblock %}
-{% block contenido %}
  
 
-    <!-- Start Wishlist  -->
-    <div class="wishlist-box-main">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="table-main table-responsive">
-                        <table class="table">
-                            <h2>Historial De Compras</h2>
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                    <th>Cantidad</th>
-                                    <th>Fecha</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for aux in compras %}
-                                <tr>
-                                    <td class="thumbnail-img">
-                                        <a href="#">
-									<img class="img-fluid" src="{{ aux.producto.imagen.url }}" alt="" />
-								</a>
-                                    </td>
-                                    <td class="name-pr">
-                                        <a href="#">
-									{{aux.producto.nombre}}
-								</a>
-                                    </td>
-                                    <td class="price-pr">
-                                        <p>${{aux.total|intcomma}}</p>
-                                    </td>
-                                    <td class="quantity-box">{{aux.cantidad}}</td>
-                                    <td class="add-pr">
-                                        
-                                            {{aux.fecha|date:"Y-m-d"}}
-                                        
-                                    </td>
-
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+{% block contenido %}  
+    <section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'core/images/portada2.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+          <div class="col-md-9 ftco-animate mb-5 text-center">
+          	<p class="breadcrumbs mb-0"><span class="mr-2"><a href="{% url 'index' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>Carrito <i class="fa fa-chevron-right"></i></span></p>
+            <h2 class="mb-0 bread">Mi carrito</h2>
+          </div>
         </div>
-    </div>
-    <!-- End Wishlist -->
+      </div>
+    </section>
 
+    <section class="ftco-section">
+    	<div class="container">
+    		<div class="row">
+    			<div class="table-wrap">
+						<table class="table">
+						  <thead class="thead-primary">
+						    <tr>
+						    	<th>&nbsp;</th>
+						    	<th>&nbsp;</th>
+						    	<th>Product</th>
+						      <th> Price </th>
+						      <th>Quantity</th>
 
+						      <th>&nbsp;</th>
+						    </tr>
+						  </thead>
 
-    {% endblock %}
-    {% block js %}
+						  {% for carrito in listado %}
+						  <tbody>
+							<!--principio for-->
+							
+								<tr class="alert" role="alert">
+									<td>
+										<label class="checkbox-wrap checkbox-primary">
+											<input type="checkbox">
+											<span class="checkmark"></span>
+											</label>
+									</td>
+									<td>
+										<div class="img" style="background-image: url({{ carrito.producto.imagen.url }});"></div>
+									</td>
+								<td>
+									<div class="email">
+										<span>{{ carrito.producto.nombre }}</span>
+									</div>
+								</td>
+								<td>${{ carrito.producto.precio|intcomma }}</td>
+								<td class="quantity-box"> {{carrito.cantidad}}</td>
 
+							</tr>
+							
+							<!--fin for-->
+						  </tbody>
+						  {% endfor %}
+						</table>
+					</div>
 
-    {% endblock %}
+    		</div>
+            
+    	</div>
+    </section>
+    <section class="ftco-section">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+              <a href="{% url 'cambiar_estado_seguimiento' id.usuario_id %}" class="btn btn-primary py-3 px-4">Checkout</a>
+            </div>
+          </div>
+        </div>
+      </section>    
+{% endblock %}
+{% block js %}
+{% endblock %}

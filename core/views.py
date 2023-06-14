@@ -142,7 +142,10 @@ def checkout(request, codigo_cupon=None):
             # Restar la cantidad comprada del stock del producto
             producto.stock -= cantidad_comprada
             producto.save()
-
+            estado_inicial = 'validacion'
+            usuario = request.user
+            seguimiento = Seguimiento(usuario=usuario, estado=estado_inicial)
+            seguimiento.save()
             # Crear una instancia de Compra para el historial
             historial = Historial(
                 usuario=request.user,
@@ -283,14 +286,18 @@ def eliminar (request, id):
     carrito.delete()
     return redirect('cart')
 
-@login_required
 def historial(request):
     compras = Historial.objects.filter(usuario=request.user)
+    seguimiento = Seguimiento.objects.filter(usuario=request.user)
     data = {
-        'compras': compras
+        'listado': compras,
+        'id' : seguimiento
+
+
     }
+    print(data)
     
-    return render(request, 'core/wishlist.html',data)
+    return render(request, 'core/wishlist.html', data)
 
 @login_required
 def edit(request):
@@ -435,4 +442,15 @@ def eliminar_cupon(request, id):
     cupon = get_object_or_404(Cupon, id=id)
     cupon.delete()
     return redirect('lista_cupones')
+
+def cambiar_estado_seguimiento(request, seguimiento_id):
+    seguimiento = get_object_or_404(Seguimiento, pk=seguimiento_id)
+
+    if request.method == 'POST':
+        nuevo_estado = request.POST.get('nuevo_estado')
+        seguimiento.estado = nuevo_estado
+        seguimiento.save()
+        return redirect('detalle_seguimiento', seguimiento_id=seguimiento_id)
+
+    return render(request, 'cambiar_estado_seguimiento.html', {'seguimiento': seguimiento})
 

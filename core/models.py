@@ -70,3 +70,20 @@ class Cupon(models.Model):
     fecha_fin = models.DateField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+
+    
+class Seguimiento(models.Model):
+    ESTADOS_CHOICES = (
+        ('validacion', 'Validación'),
+        ('preparacion', 'Preparación'),
+        ('reparto', 'Reparto'),
+        ('entregado', 'Entregado'),
+    )
+
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    estado = models.CharField(max_length=20, choices=ESTADOS_CHOICES)
+
+    # otros campos que necesites
+
+    def __str__(self):
+        return f'Seguimiento #{self.id} - Usuario: {self.usuario.username}'

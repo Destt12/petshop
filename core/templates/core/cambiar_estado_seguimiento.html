@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+
+
+{% endblock %}
+{% block contenido %}
+<form method="POST">
+    {% csrf_token %}
+    <label for="nuevo_estado">Nuevo estado:</label>
+    <select name="nuevo_estado" id="nuevo_estado">
+        {% for choice in seguimiento.ESTADOS_CHOICES %}
+            <option value="{{ choice.0 }}" {% if seguimiento.estado == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <input type="submit" value="Cambiar estado">
+</form>
+
+{% endblock %}
+{% block js %}
+
+
+
+  
+{% endblock %}
