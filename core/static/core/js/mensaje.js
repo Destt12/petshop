@@ -29,7 +29,8 @@ function eliminarProducto(id) {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'success'
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Eliminado!','Producto Eliminado Correctamente','success').then(function() {
@@ -47,7 +48,8 @@ function eliminarCarrito(id) {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'success'
+    confirmButtonText: 'Eliminar',
+    cancelButtonText: 'Cancelar'
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire('Eliminado!','Producto Quitado Del Carrito','success').then(function() {
@@ -65,7 +67,8 @@ function eliminarCupones(id) {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'success'
+    confirmButtonText: 'Eliminar',
+    cancelButtonText: 'Cancelar'
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire('Eliminado!','Producto Eliminado Correctamente','success').then(function() {

@@ -29,17 +29,22 @@ class TipoProductoViewset(viewsets.ModelViewSet):
 
 #----------------------------#
 def index(request):
-    productoAll = Producto.objects.order_by('?')[:8]
-    producto3 = Producto.objects.order_by('?')[:3]
+    categoria_filtrada = request.GET.get('categoria')  # Obtiene el parámetro de la URL llamado 'categoria'
+
+    if categoria_filtrada:
+        productoAll = Producto.objects.filter(categoria=categoria_filtrada).order_by('?')[:8]
+        producto3 = Producto.objects.filter(categoria=categoria_filtrada).order_by('?')[:3]
+    else:
+        productoAll = Producto.objects.order_by('?')[:8]
+        producto3 = Producto.objects.order_by('?')[:3]
 
     data = {
         'listado': productoAll,
         'listado3': producto3
-        
     }
-    
 
     return render(request, 'core/index.html', data)
+
 
 ###del api prueba 
 def index_api(request):
