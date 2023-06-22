@@ -25,7 +25,7 @@ urlpatterns = [
         path('product/',product,name="product"),
         path('wishlist/',historial,name="historial"),
         path('product-details/<int:id>/', product_details, name='product-details'),
-        path('seguimiento/<int:seguimiento_id>/', cambiar_estado_seguimiento, name='cambiar_estado_seguimiento'),
+        path('seguimiento/', cambiar_estado_seguimiento, name='cambiar_estado_seguimiento'),
 
 
         #cosas del carrito

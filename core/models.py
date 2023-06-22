@@ -82,8 +82,9 @@ class Seguimiento(models.Model):
 
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     estado = models.CharField(max_length=20, choices=ESTADOS_CHOICES)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)  # Añade este campo
 
     # otros campos que necesites
 
     def __str__(self):
-        return f'Seguimiento #{self.id} - Usuario: {self.usuario.username}'
+        return f'Seguimiento #{self.id} - Producto: {self.producto.nombre} - Usuario: {self.usuario.username}'

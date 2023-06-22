@@ -133,7 +133,7 @@ def cart(request):
 def checkout(request, codigo_cupon=None):
     if request.method == 'POST':
         carrito = Carrito.objects.filter(usuario=request.user)
-
+        
         
         for item in carrito:
             producto = item.producto
@@ -144,7 +144,7 @@ def checkout(request, codigo_cupon=None):
             producto.save()
             estado_inicial = 'validacion'
             usuario = request.user
-            seguimiento = Seguimiento(usuario=usuario, estado=estado_inicial)
+            seguimiento = Seguimiento(usuario=usuario, estado=estado_inicial, producto_id= producto.id)
             seguimiento.save()
             # Crear una instancia de Compra para el historial
             historial = Historial(
@@ -196,6 +196,7 @@ def checkout(request, codigo_cupon=None):
 
     data = {
         'carrito': carrito,
+        
         'total_general': total_general,
         'sub_total': sub_total,
         'descuento': total_descuento,
@@ -245,8 +246,7 @@ def product(request):
     return render(request, 'core/product.html', data)
 
 
-def wishlist(request):
-    return render(request, 'core/wishlist.html')
+
 
 #creado por sebalol
 @login_required
@@ -290,15 +290,10 @@ def historial(request):
     compras = Historial.objects.filter(usuario=request.user)
     seguimiento = Seguimiento.objects.filter(usuario=request.user)
     data = {
-        'listado': compras,
-        'id' : seguimiento
-
-
+        'listado': zip(compras, seguimiento)
     }
-    print(data)
     
     return render(request, 'core/wishlist.html', data)
-
 @login_required
 def edit(request):
     user = request.user
@@ -443,14 +438,15 @@ def eliminar_cupon(request, id):
     cupon.delete()
     return redirect('lista_cupones')
 
-def cambiar_estado_seguimiento(request, seguimiento_id):
-    seguimiento = get_object_or_404(Seguimiento, pk=seguimiento_id)
+def cambiar_estado_seguimiento(request):
+    seguimientos = Seguimiento.objects.all()
 
     if request.method == 'POST':
-        nuevo_estado = request.POST.get('nuevo_estado')
-        seguimiento.estado = nuevo_estado
-        seguimiento.save()
-        return redirect('detalle_seguimiento', seguimiento_id=seguimiento_id)
+        for seguimiento in seguimientos:
+            nuevo_estado = request.POST.get(f'nuevo_estado_{seguimiento.id}')
+            seguimiento.estado = nuevo_estado
+            seguimiento.save()
+        return redirect('historial')
 
-    return render(request, 'cambiar_estado_seguimiento.html', {'seguimiento': seguimiento})
+    return render(request, 'core/cambiar_estado_seguimiento.html', {'seguimientos': seguimientos})
 
