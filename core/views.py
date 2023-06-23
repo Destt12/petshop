@@ -32,19 +32,19 @@ def index(request):
     categoria_filtrada = request.GET.get('categoria')  # Obtiene el parámetro de la URL llamado 'categoria'
 
     if categoria_filtrada:
-        productoAll = Producto.objects.filter(categoria=categoria_filtrada).order_by('?')[:8]
-        producto3 = Producto.objects.filter(categoria=categoria_filtrada).order_by('?')[:3]
+        url_productos = f'http://127.0.0.1:8000/api/productos/?categoria={categoria_filtrada}'
     else:
-        productoAll = Producto.objects.order_by('?')[:8]
-        producto3 = Producto.objects.order_by('?')[:3]
+        url_productos = 'http://127.0.0.1:8000/api/productos/'
+
+    response_productos = requests.get(url_productos)
+    data_productos = response_productos.json()
 
     data = {
-        'listado': productoAll,
-        'listado3': producto3
+        'listado': data_productos,
+        'listado3': data_productos[:3]  # Tomar los primeros 3 elementos de la lista
     }
 
     return render(request, 'core/index.html', data)
-
 
 ###del api prueba 
 def index_api(request):

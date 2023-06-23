@@ -149,7 +149,7 @@
 					<div class="col-md-3 d-flex">
 						<div class="product ftco-animate">
 							{% if aux.imagen %}
-							<div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen.url }});">
+							<div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.0imagen }});">
 							{% else %}
 							<div class="img d-flex align-items-center justify-content-center" style="background-image: url(images/prod-1.jpg);"></div>
 							{% endif %}
@@ -187,7 +187,7 @@
 							</div>
 							<div class="text text-center">
 								<span class="sale">Stock: {{ aux.stock }}</span>
-								<span class="category">{{ aux.tipo }}</span>
+								<span class="category">{{ aux.tipo.descripcion }}</span>
 								<h2>{{ aux.nombre }}</h2>
 								<p class="mb-0"><span class="price">${{ aux.precio | intcomma }}</span> </p>
 							</div>

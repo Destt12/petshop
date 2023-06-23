@@ -24,7 +24,7 @@ urlpatterns = [
         path('productSingle/',productSingle,name="productSingle"),
         path('product/',product,name="product"),
         path('wishlist/',wishlist,name="wishlist"),
-        path('product-details/<int:id>/', product_details, name='product-details'),
+        path('product-details/<id>/', product_details, name='product-details'),
 
 
 
