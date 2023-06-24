@@ -54,7 +54,27 @@
 				
 				<td class="quantity-box">{{ carrito.cantidad }}</td>
 
-				<td>{{ aux.estado }}</td>
+				<td>
+					{{ aux.estado }}
+					{% if aux.estado == 'validacion' %}
+						<div class="progress-bar">
+							<div class="progress-bar-fill validacion" style="width: 25%;"></div>
+						</div>
+					{% elif aux.estado == 'preparacion' %}
+						<div class="progress-bar">
+							<div class="progress-bar-fill preparacion" style="width: 50%;"></div>
+						</div>
+					{% elif aux.estado == 'reparto' %}
+						<div class="progress-bar">
+							<div class="progress-bar-fill reparto" style="width: 75%;"></div>
+						</div>
+					{% elif aux.estado == 'entregado' %}
+						<div class="progress-bar">
+							<div class="progress-bar-fill entregado" style="width: 100%;"></div>
+						</div>
+					{% endif %}
+				</td>
+				
 			  </tr>
 			  
 			  <!-- fin for -->

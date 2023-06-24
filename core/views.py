@@ -231,7 +231,7 @@ def product(request):
 
     try:
         paginator = Paginator(productoAll, 6)
-        productoAll = paginator.page(page)
+        productoAll= paginator.page(page)
     except:
         raise Http404
 
