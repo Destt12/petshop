@@ -53,6 +53,10 @@ urlpatterns = [
 
         #PATH DE API
         path('api/', include(router.urls)), 
+
+        #SETTING USER
+        path('setting/',setting,name="setting"),
+
         
 
 ]

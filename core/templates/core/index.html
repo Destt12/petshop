@@ -161,9 +161,11 @@
 											<a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="d-flex align-items-center justify-content-center">
 											  <span class="flaticon-shopping-bag"></span>
 											</a>
-										  </form>
+										</form>
+										<a href="{% url 'update' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="fa fa-refresh"></span></a>
 										<a href="{% url 'product-details' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
 										<a href="#" onclick="eliminarProducto({{ aux.id }})" class="d-flex align-items-center justify-content-center"><span class="fa fa-trash"></span></a>
+
 										{% elif user.is_authenticated %}
 										<form action="{% url 'agregar' aux.id %}" method="post">
 											{% csrf_token %}
@@ -197,7 +199,7 @@
 				<!--fin de el for-->
 				<div class="row justify-content-center">
 					<div class="col-md-4">
-						<a href="{% url 'product' %}" class="btn btn-primary d-block"> View All Products <span class="fa fa-long-arrow-right"></span></a>
+<!-- <a href="{% url 'product' %}" class="btn btn-primary d-block"> View All Products <span class="fa fa-long-arrow-right"></span></a> -->
 					</div>
 				</div>
 			</div>

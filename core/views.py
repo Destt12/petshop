@@ -436,3 +436,32 @@ def eliminar_cupon(request, id):
     cupon.delete()
     return redirect('lista_cupones')
 
+#SETTING USER
+def setting(request):
+    user = request.user
+    suscriptor, created = Suscriptor.objects.get_or_create(user=user)
+
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            
+            donacion = request.POST.get('donacion')
+            if donacion:
+                total_donacion = float(donacion)
+                if total_donacion >= 1000:
+                    if not suscriptor.es_suscriptor:
+                        suscriptor.es_suscriptor = True
+                        suscriptor.descuento = 5
+                        suscriptor.save()
+                else:
+                    form.add_error('donacion', 'La donación debe ser de al menos 1000')
+            
+            cancelar_suscripcion = request.POST.get('cancelar_suscripcion')
+            if cancelar_suscripcion:
+                cancelar_suscripcion(request, suscriptor) 
+        
+    else:
+        form = UserEditForm(instance=user)
+    
+    return render(request, 'core/edit.html', {'form': form, 'suscriptor': suscriptor})
