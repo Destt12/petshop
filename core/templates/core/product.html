@@ -23,7 +23,7 @@
                         {% for aux in listado %}
                         <div class="col-md-4 d-flex">
                             <div class="product ftco-animate">
-                                <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen.url }});">
+                                <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen }});">
                                     <div class="desc">
                                         <p class="meta-prod d-flex">
                                           <form action="{% url 'agregar' aux.id %}" method="post">

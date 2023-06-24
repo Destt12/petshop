@@ -217,13 +217,33 @@ def productSingle(request):
 
 def product(request):
     tipos_producto = TipoProducto.objects.all()
-    productos = Producto.objects.order_by('?')
 
     tipo_producto = request.GET.getlist('tipo_producto')  # Obtener los tipos seleccionados
 
-    # Filtrar productos por tipos seleccionados
+    # Construir la URL de la API
+    url_api = 'http://127.0.0.1:8000/api/productos/'
+    params = {'tipo_producto': tipo_producto}  # Pasar los tipos seleccionados como parámetros
+
+    # Realizar la solicitud a la API y obtener los datos de productos
+    response = requests.get(url_api, params=params)
+    data_productos = response.json()
+
+    # Crear listas de productos basadas en los datos de la API
+    productos = [Producto(
+        id=producto['id'],
+        tipo=TipoProducto(id=producto['tipo']['id'], descripcion=producto['tipo']['descripcion']),
+        nombre=producto['nombre'],
+        precio=producto['precio'],
+        stock=producto['stock'],
+        descripcion=producto['descripcion'],
+        imagen=producto['imagen'],
+        created_at=producto['created_at'],
+        updated_at=producto['updated_at']
+    ) for producto in data_productos]
+
+    # Filtrar productos por tipos seleccionados (opcional)
     if tipo_producto:
-        productos = productos.filter(tipo__descripcion__in=tipo_producto)
+        productos = [producto for producto in productos if producto.tipo.descripcion in tipo_producto]
 
     productoAll = productos[:8]
     producto3 = productos[:3]
@@ -241,7 +261,7 @@ def product(request):
         'listado': productoAll,
         'listado3': producto3,
         'tipos_seleccionados': tipo_producto, 
-        'paginator': paginator, # Agregar los tipos seleccionados al contexto
+        'paginator': paginator,
     }
 
     return render(request, 'core/product.html', data)
