@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block contenido %}
+<div class="container">
+  <form method="post" class="mt-4">
+    {% csrf_token %}
+    {% for seguimiento in seguimientos %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3 class="card-title">Seguimiento ID: {{ seguimiento.id }}</h3>
+        <p class="card-text">Producto: {{ seguimiento.producto.nombre }}</p>
+        <p class="card-text">Estado actual: {{ seguimiento.estado }}</p>
+        <div class="form-group">
+          <label for="nuevo_estado_{{ seguimiento.id }}">Nuevo estado:</label>
+          <select id="nuevo_estado_{{ seguimiento.id }}" name="nuevo_estado_{{ seguimiento.id }}" class="form-control">
+            {% for choice in seguimiento.ESTADOS_CHOICES %}
+            <option value="{{ choice.0 }}" {% if choice.0 == seguimiento.estado %}selected{% endif %}>{{ choice.1 }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+      

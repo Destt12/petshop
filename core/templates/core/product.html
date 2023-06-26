@@ -8,8 +8,8 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
           <div class="col-md-9 ftco-animate mb-5 text-center">
-            <p class="breadcrumbs mb-0"><span class="mr-2"><a href="{% url 'index' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>Products <i class="fa fa-chevron-right"></i></span></p>
-            <h2 class="mb-0 bread">Products</h2>
+            <p class="breadcrumbs mb-0"><span class="mr-2"><a href="{% url 'index' %}">Inicio <i class="fa fa-chevron-right"></i></a></span> <span>Productos <i class="fa fa-chevron-right"></i></span></p>
+            <h2 class="mb-0 bread">Productos</h2>
           </div>
         </div>
       </div>
@@ -19,25 +19,42 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <div class="row mb-4">
-
-                    </div>
                     <div class="row">
                         {% for aux in listado %}
+                        {% if aux.stock > 0 %}
                         <div class="col-md-4 d-flex">
                             <div class="product ftco-animate">
-                                <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen.url }});">
+                                <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen }});">
                                     <div class="desc">
                                         <p class="meta-prod d-flex">
+                                          {% if user.is_authenticated and user.is_staff %}
                                           <form action="{% url 'agregar' aux.id %}" method="post">
                                             {% csrf_token %}
-                                            {% if user.is_authenticated and user.is_staff %}
                                             <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="d-flex align-items-center justify-content-center">
                                               <span class="flaticon-shopping-bag"></span>
                                             </a>
-                                            </form>
+                                          </form>
+                                          <a href="{% url 'update' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="fa fa-refresh"></span></a>
                                           <a href="{% url 'product-details' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
                                           <a href="#" onclick="eliminarProducto({{ aux.id }})" class="d-flex align-items-center justify-content-center"><span class="fa fa-trash"></span></a>
+                      
+                                          {% elif user.is_authenticated %}
+                                          <form action="{% url 'agregar' aux.id %}" method="post">
+                                            {% csrf_token %}
+                                              <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="d-flex align-items-center justify-content-center">
+                                              <span class="flaticon-shopping-bag"></span>
+                                              </a>
+                                          </form>
+                                          <a href="{% url 'product-details' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
+                                          {% else %}
+                                          <form action="{% url 'login' %}">
+                                            {% csrf_token %}
+                                              <a href="{% url 'login' %}" class="d-flex align-items-center justify-content-center">
+                                              <span class="flaticon-shopping-bag"></span>
+                                              </a>
+                                          </form>
+                                            <a href="{% url 'product-details' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
+                                          {% endif %}
                                         </p>
                                     </div>
                                 </div>
@@ -49,20 +66,16 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
+
+                        
                     </div>
+                    
                     <div class="row mt-5">
                       <div class="col text-center">
-                        <div class="block-27">
-                          <ul>
-                            <li><a href="#">&lt;</a></li>
-                            <li class="active"><span>1</span></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&gt;</a></li>
-                          </ul>
+                        <div>
+                          {% include 'core/paginator.html' %}
                         </div>
                       </div>
                     </div>
@@ -71,11 +84,12 @@
                 <div class="col-md-3">
                     <div class="sidebar-box ftco-animate">
                       <div class="categories">
-                        <h3>Product Types</h3>
+                        <h3>Tipo de Productos</h3>
 						<ul class="p-0">
+              <li class="selected"><a href="{% url 'product' %}">Todos los productos <span class="fa fa-chevron-right"></span></a></li>
 							{% for x in tipo %}
 							<li{% if x.descripcion in tipos_seleccionados %} class="selected"{% endif %}><a href="?tipo_producto={{ x.descripcion }}">{{ x.descripcion }} <span class="fa fa-chevron-right"></span></a></li>
-							{% endfor %}
+              {% endfor %}
 						</ul>
                       </div>
                     </div>
@@ -116,6 +130,7 @@
                 </div>
             </div>
         </div>
+        
     </section>
 
     <script>

@@ -8,6 +8,10 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('productos', ProductoViewset)
 router.register('tipo_productos', TipoProductoViewset)
+router.register('cupon', CuponViewset)
+router.register('Carrito', CarritoViewset)
+router.register('User', UserViewset)
+
 
 
 urlpatterns = [
@@ -23,9 +27,9 @@ urlpatterns = [
         path('contact/',contact,name="contact"),
         path('productSingle/',productSingle,name="productSingle"),
         path('product/',product,name="product"),
-        path('wishlist/',wishlist,name="wishlist"),
+        path('wishlist/',historial,name="historial"),
         path('product-details/<int:id>/', product_details, name='product-details'),
-
+        path('seguimiento/', cambiar_estado_seguimiento, name='cambiar_estado_seguimiento'),
 
 
         #cosas del carrito
@@ -42,6 +46,7 @@ urlpatterns = [
         #CRUD
         path('add/',add,name="add"),
         path('delate/<id>/', delate, name='delate'),
+        path('update/<id>/', update, name='update'),
 
 
         #CRUD CUPONES 
@@ -52,6 +57,5 @@ urlpatterns = [
 
         #PATH DE API
         path('api/', include(router.urls)), 
-        
 
 ]

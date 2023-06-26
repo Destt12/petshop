@@ -3,7 +3,7 @@
  
 {% load humanize %}
 {% block contenido %}    
-<form action="{% url 'checkout' %}" method="post" >
+<form action="{% url 'checkout' %}" id="formularioAdicional" method="post" >
 	{% csrf_token %}
     <section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'core/images/bg_2.jpg' %});" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
@@ -26,29 +26,29 @@
 	          	<div class="row align-items-end">
 	          		<div class="col-md-6">
 	                <div class="form-group">
-	                	<label for="firstname">Firt Name</label>
+	                	<label for="firstname">Nombre</label>
 	                  <input type="text" class="form-control" placeholder="">
 	                </div>
 	              </div>
 	              <div class="col-md-6">
 	                <div class="form-group">
-	                	<label for="lastname">Last Name</label>
+	                	<label for="lastname">Apellido</label>
 	                  <input type="text" class="form-control" placeholder="">
 	                </div>
                 </div>
                 <div class="w-100"></div>
 		            <div class="col-md-12">
 		            	<div class="form-group">
-		            		<label for="country">State / Country</label>
+		            		<label for="country">Pais</label>
 		            		<div class="select-wrap">
 		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
 		                  <select name="" id="" class="form-control">
-		                  	<option value="">France</option>
-		                    <option value="">Italy</option>
-		                    <option value="">Philippines</option>
-		                    <option value="">South Korea</option>
-		                    <option value="">Hongkong</option>
-		                    <option value="">Japan</option>
+		                  	<option value="">Chile</option>
+		                    <option value="">Argentina</option>
+		                    <option value="">Colombia</option>
+		                    <option value="">Peru</option>
+		                    <option value="">Bolivia</option>
+		                    <option value="">USA</option>
 		                  </select>
 		                </div>
 		            	</div>
@@ -56,58 +56,54 @@
 		            <div class="w-100"></div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
-	                	<label for="streetaddress">Street Address</label>
-	                  <input type="text" class="form-control" placeholder="House number and street name">
+	                	<label for="streetaddress">Direccion</label>
+	                  <input type="text" class="form-control" placeholder="Ingresa la direccion de tu hogar">
 	                </div>
 		            </div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
-	                  <input type="text" class="form-control" placeholder="Appartment, suite, unit etc: (optional)">
+	                  <input type="text" class="form-control" placeholder="departamentp, suite, etc: (opcional)">
 	                </div>
 		            </div>
 		            <div class="w-100"></div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
-	                	<label for="towncity">Town / City</label>
+	                	<label for="towncity">ciudad / comuna</label>
 	                  <input type="text" class="form-control" placeholder="">
 	                </div>
 		            </div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
-		            		<label for="postcodezip">Postcode / ZIP *</label>
+		            		<label for="postcodezip">Codigo Postal</label>
 	                  <input type="text" class="form-control" placeholder="">
 	                </div>
 		            </div>
 		            <div class="w-100"></div>
 		            <div class="col-md-6">
 	                <div class="form-group">
-	                	<label for="phone">Phone</label>
+	                	<label for="phone">Telefono</label>
 	                  <input type="text" class="form-control" placeholder="">
 	                </div>
 	              </div>
 	              <div class="col-md-6">
 	                <div class="form-group">
-	                	<label for="emailaddress">Email Address</label>
+	                	<label for="emailaddress">Correo electronico</label>
 	                  <input type="text" class="form-control" placeholder="">
 	                </div>
                 </div>
                 <div class="w-100"></div>
                 <div class="col-md-12">
                 	<div class="form-group mt-4">
-										<div class="radio">
-										  <label class="mr-3"><input type="radio" name="optradio"> Create an Account? </label>
-										  <label><input type="radio" name="optradio"> Ship to different address</label>
-										</div>
-									</div>
+					</div>
                 </div>
 	            </div>
 	          
 
 
-	          <div class="row mt-5 pt-3 d-flex">
+	          <div class="row mt-5 pt-3 d-flex justify-content-center">
 	          	<div class="col-md-6 d-flex">
 	          		<div class="cart-detail cart-total p-3 p-md-4">
-	          			<h3 class="billing-heading mb-4">Cart Total</h3>
+	          			<h3 class="billing-heading mb-4">Total del Carrito</h3>
 	          			<p class="d-flex">
 		    						<span>Subtotal</span>
 		    						<span>${{sub_total|intcomma}}</span>
@@ -117,7 +113,7 @@
 		    						<span>$0.00</span>
 		    					</p>
 		    					<p class="d-flex">
-		    						<span>Discount</span>
+		    						<span>Descuento</span>
 		    						<span>${{descuento|intcomma}}</span>
 		    					</p>
 		    					<hr>
@@ -129,46 +125,13 @@
 								</div>
 								
 	          	</div>
-	          	<div class="col-md-6">
-	          		<div class="cart-detail p-3 p-md-4">
-	          			<h3 class="billing-heading mb-4">Payment Method</h3>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Direct Bank Tranfer</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Check Payment</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="checkbox">
-											   <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
-											</div>
-										</div>
-									</div>
-									<p><button type="submit" class="btn btn-primary py-3 px-4">Place an order</button></p> 
-								</div>
-	          	</div>
 	          </div>
           </div> <!-- .col-md-8 -->
         </div>
     	</div>
     </section>
 </form>
+
 
 {% endblock %}
 {% block js %}
@@ -207,6 +170,7 @@
 			cancelButtonColor: '#d33',
 			confirmButtonText: 'Pa casa platita'
 			});
+			document.getElementById('formularioAdicional').submit();
 		});
  
 
