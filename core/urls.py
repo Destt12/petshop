@@ -9,6 +9,9 @@ router = routers.DefaultRouter()
 router.register('productos', ProductoViewset)
 router.register('tipo_productos', TipoProductoViewset)
 router.register('cupon', CuponViewset)
+router.register('Carrito', CarritoViewset)
+router.register('User', UserViewset)
+
 
 
 urlpatterns = [

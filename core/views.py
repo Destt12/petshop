@@ -26,6 +26,14 @@ class TipoProductoViewset(viewsets.ModelViewSet):
     queryset = TipoProducto.objects.all()
     serializer_class =TipoProductoSerializer
 
+class CarritoViewset(viewsets.ModelViewSet):
+    queryset = Carrito.objects.all()
+    serializer_class =CarritoSerializer
+
+class UserViewset(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class =UserSerializer
+
 
 
 
