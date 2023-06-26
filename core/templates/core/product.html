@@ -21,9 +21,10 @@
                 <div class="col-md-9">
                     <div class="row">
                         {% for aux in listado %}
+                        {% if aux.stock > 0 %}
                         <div class="col-md-4 d-flex">
                             <div class="product ftco-animate">
-                                <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen.url }});">
+                                <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen }});">
                                     <div class="desc">
                                         <p class="meta-prod d-flex">
                                           {% if user.is_authenticated and user.is_staff %}
@@ -65,23 +66,16 @@
                                 </div>
                             </div>
                         </div>
-
+                        {% endif %}
                         {% endfor %}
+
                         
                     </div>
                     
                     <div class="row mt-5">
                       <div class="col text-center">
-                        <div class="block-27">
-                          <ul>
-                            <li><a href="#">&lt;</a></li>
-                            <li class="active"><span>1</span></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&gt;</a></li>
-                          </ul>
+                        <div>
+                          {% include 'core/paginator.html' %}
                         </div>
                       </div>
                     </div>
@@ -92,9 +86,10 @@
                       <div class="categories">
                         <h3>Tipo de Productos</h3>
 						<ul class="p-0">
+              <li class="selected"><a href="{% url 'product' %}">Todos los productos <span class="fa fa-chevron-right"></span></a></li>
 							{% for x in tipo %}
 							<li{% if x.descripcion in tipos_seleccionados %} class="selected"{% endif %}><a href="?tipo_producto={{ x.descripcion }}">{{ x.descripcion }} <span class="fa fa-chevron-right"></span></a></li>
-							{% endfor %}
+              {% endfor %}
 						</ul>
                       </div>
                     </div>

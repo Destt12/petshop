@@ -3,17 +3,29 @@ from .models import *
 from .forms import *
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RegistrationForm
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
 from .serializers import *
+from django.contrib.auth.models import Group
 import requests
 
 # Create your views here.
 #VIEWSET QUE SE ENCARGA DE INTERCAMBIAR LA DATA
+def grupo_requerido(nombre_grupo):
+    def decorator(view_fuc):
+        @user_passes_test(lambda user: user.groups.filter(name=nombre_grupo).exists())
+        def wrapper(request, *arg, **kwargs):
+            return view_fuc(request, *arg, **kwargs)
+        return wrapper
+    return decorator
+    
+ # @grupo_requerido('cliente')
+ # @grupo_requerido('administrador')
+
 class CuponViewset(viewsets.ModelViewSet):
     queryset = Cupon.objects.all()
     serializer_class = CuponSerializer
@@ -37,17 +49,23 @@ class UserViewset(viewsets.ModelViewSet):
 
 
 
+
 #----------------------------#
 def index(request):
-    productoAll = Producto.objects.order_by('?')[:8]
-    producto3 = Producto.objects.order_by('?')[:3]
+    categoria_filtrada = request.GET.get('categoria')  # Obtiene el parámetro de la URL llamado 'categoria'
+
+    if categoria_filtrada:
+        url_productos = f'http://127.0.0.1:8000/api/productos/?categoria={categoria_filtrada}'
+    else:
+        url_productos = 'http://127.0.0.1:8000/api/productos/'
+
+    response_productos = requests.get(url_productos)
+    data_productos = response_productos.json()
 
     data = {
-        'listado': productoAll,
-        'listado3': producto3
-        
+        'listado': data_productos,
+        'listado3': data_productos[:4]  # Tomar los primeros 3 elementos de la lista
     }
-    
 
     return render(request, 'core/index.html', data)
 
@@ -92,7 +110,7 @@ def blogSingle(request):
 def  blog(request):
     return render(request, 'core/blog.html')
 
-@login_required
+@grupo_requerido('cliente')
 def cart(request):
     carrito = Carrito.objects.filter(usuario=request.user)
     codigo_cupon = None
@@ -139,11 +157,11 @@ def cart(request):
         
     }
     return render(request, 'core/cart.html', data)
-
+@grupo_requerido('cliente')
 def checkout(request, codigo_cupon=None):
     if request.method == 'POST':
         carrito = Carrito.objects.filter(usuario=request.user)
-
+        
         
         for item in carrito:
             producto = item.producto
@@ -152,7 +170,10 @@ def checkout(request, codigo_cupon=None):
             # Restar la cantidad comprada del stock del producto
             producto.stock -= cantidad_comprada
             producto.save()
-
+            estado_inicial = 'validacion'
+            usuario = request.user
+            seguimiento = Seguimiento(usuario=usuario, estado=estado_inicial, producto_id= producto.id)
+            seguimiento.save()
             # Crear una instancia de Compra para el historial
             historial = Historial(
                 usuario=request.user,
@@ -166,7 +187,7 @@ def checkout(request, codigo_cupon=None):
         # Eliminar los productos del carrito
         carrito.delete()
 
-        return redirect('cart')
+
 
     carrito = Carrito.objects.filter(usuario=request.user)
     total_general = 0
@@ -199,10 +220,11 @@ def checkout(request, codigo_cupon=None):
     monedas = response.json()
     valor_dolar = monedas['serie'][0]['valor']#valor del dolar actual
     valor_dolar=round(valor_dolar,2)
-    valor=round(total_general/valor_dolar,2)
+    valor=round(total_general/valor_dolar)
 
     data = {
         'carrito': carrito,
+        
         'total_general': total_general,
         'sub_total': sub_total,
         'descuento': total_descuento,
@@ -222,13 +244,33 @@ def productSingle(request):
 
 def product(request):
     tipos_producto = TipoProducto.objects.all()
-    productos = Producto.objects.order_by('?')
 
     tipo_producto = request.GET.getlist('tipo_producto')  # Obtener los tipos seleccionados
 
-    # Filtrar productos por tipos seleccionados
+    # Construir la URL de la API
+    url_api = 'http://127.0.0.1:8000/api/productos/'
+    params = {'tipo_producto': tipo_producto}  # Pasar los tipos seleccionados como parámetros
+
+    # Realizar la solicitud a la API y obtener los datos de productos
+    response = requests.get(url_api, params=params)
+    data_productos = response.json()
+
+    # Crear listas de productos basadas en los datos de la API
+    productos = [Producto(
+        id=producto['id'],
+        tipo=TipoProducto(id=producto['tipo']['id'], descripcion=producto['tipo']['descripcion']),
+        nombre=producto['nombre'],
+        precio=producto['precio'],
+        stock=producto['stock'],
+        descripcion=producto['descripcion'],
+        imagen=producto['imagen'],
+        created_at=producto['created_at'],
+        updated_at=producto['updated_at']
+    ) for producto in data_productos]
+
+    # Filtrar productos por tipos seleccionados (opcional)
     if tipo_producto:
-        productos = productos.filter(tipo__descripcion__in=tipo_producto)
+        productos = [producto for producto in productos if producto.tipo.descripcion in tipo_producto]
 
     productoAll = productos[:8]
     producto3 = productos[:3]
@@ -246,17 +288,16 @@ def product(request):
         'listado': productoAll,
         'listado3': producto3,
         'tipos_seleccionados': tipo_producto, 
-        'paginator': paginator, # Agregar los tipos seleccionados al contexto
+        'paginator': paginator,
     }
 
     return render(request, 'core/product.html', data)
 
 
-def wishlist(request):
-    return render(request, 'core/wishlist.html')
+
 
 #creado por sebalol
-@login_required
+@grupo_requerido('cliente')
 def actualizar(request, id):
     if request.method == 'POST':
         nueva_cantidad = request.POST.get('cantidad')
@@ -266,7 +307,7 @@ def actualizar(request, id):
         # Puedes agregar mensajes flash o redirigir a otra página después de la actualización
     return redirect('cart')
 
-@login_required
+@grupo_requerido('cliente')
 def agregar(request, id):
     if request.method == 'POST':
         cantidad = int(request.POST.get('cantidad', 1))
@@ -286,23 +327,22 @@ def agregar(request, id):
 
     return redirect(request.META.get('HTTP_REFERER') or 'index')
 
-@login_required
+@grupo_requerido('cliente')
 def eliminar (request, id):
 
     carrito = Carrito.objects.get(id=id)
     carrito.delete()
     return redirect('cart')
-
-@login_required
+@grupo_requerido('cliente')
 def historial(request):
     compras = Historial.objects.filter(usuario=request.user)
+    seguimiento = Seguimiento.objects.filter(usuario=request.user)
     data = {
-        'compras': compras
+        'listado': zip(compras, seguimiento)
     }
     
-    return render(request, 'core/wishlist.html',data)
-
-@login_required
+    return render(request, 'core/wishlist.html', data)
+@grupo_requerido('cliente')
 def edit(request):
     user = request.user
     suscriptor, created = Suscriptor.objects.get_or_create(user=user)
@@ -331,13 +371,13 @@ def edit(request):
     
     return render(request, 'core/edit.html', {'form': form, 'suscriptor': suscriptor})
 
-@login_required
+@grupo_requerido('cliente')
 def eliminar_perfil(request):
     user = request.user
     user.delete()
     # Realiza cualquier otra acción necesaria después de eliminar el perfil
     return redirect('index') 
-@login_required
+@grupo_requerido('cliente')
 def cancelar_suscripcion(request):
     user = request.user
     suscriptor = Suscriptor.objects.get(user=user)
@@ -362,15 +402,18 @@ def product_details(request, id):
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
+
         if form.is_valid():
-            user = form.save()  # Guardar el usuario registrado
+            user = form.save()
+            grupo = Group.objects.get(name='cliente')
+            user.groups.add(grupo) # Guardar el usuario registrado
             suscriptor = Suscriptor(user=user)  # Crear un objeto Suscriptor con el usuario
             suscriptor.save()  # Guardar el objeto Suscriptor en la base de datos
             return redirect('login')  # Redirige al inicio de sesión después del registro exitoso
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
-@login_required
+@grupo_requerido('administrador')
 def add(request):
     page = request.GET.get('page', 1)
     data = {
@@ -384,13 +427,13 @@ def add(request):
             #data['msj'] = "Producto guardado correctamente" 
             messages.success(request, "Producto almacenado correctamente")  
     return render(request, 'core/add-product.html',data)
-@login_required
+@grupo_requerido('administrador')
 def delate(request, id):
     producto = Producto.objects.get(id=id)
     producto.delete()
     return redirect(to = 'index')
 
-@login_required
+@grupo_requerido('administrador')
 def update(request, id):
     producto = Producto.objects.get(id=id)
     data = {
@@ -411,7 +454,7 @@ def update(request, id):
 
 
 #CREADO POR EL CRACK
-@login_required
+@grupo_requerido('administrador')
 def crear_cupon(request):
     if request.method == 'POST':
         form = CuponForm(request.POST)
@@ -422,11 +465,11 @@ def crear_cupon(request):
         form = CuponForm()
     
     return render(request, 'core/crear_cupon.html', {'form': form})
-@login_required
+@grupo_requerido('administrador')
 def lista_cupones(request):
     cupones = Cupon.objects.all()
     return render(request, 'core/lista_cupones.html', {'cupones': cupones})
-@login_required
+@grupo_requerido('administrador')
 def actualizar_cupon(request, id):
     cupon = get_object_or_404(Cupon, id=id)
     
@@ -440,38 +483,21 @@ def actualizar_cupon(request, id):
     
     return render(request, 'core/actualizar_cupon.html', {'form': form})
 
-@login_required
+@grupo_requerido('administrador')
 def eliminar_cupon(request, id):
     cupon = get_object_or_404(Cupon, id=id)
     cupon.delete()
     return redirect('lista_cupones')
-
-#SETTING USER
-def setting(request):
-    user = request.user
-    suscriptor, created = Suscriptor.objects.get_or_create(user=user)
+@grupo_requerido('administrador')
+def cambiar_estado_seguimiento(request):
+    seguimientos = Seguimiento.objects.all()
 
     if request.method == 'POST':
-        form = UserEditForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            
-            donacion = request.POST.get('donacion')
-            if donacion:
-                total_donacion = float(donacion)
-                if total_donacion >= 1000:
-                    if not suscriptor.es_suscriptor:
-                        suscriptor.es_suscriptor = True
-                        suscriptor.descuento = 5
-                        suscriptor.save()
-                else:
-                    form.add_error('donacion', 'La donación debe ser de al menos 1000')
-            
-            cancelar_suscripcion = request.POST.get('cancelar_suscripcion')
-            if cancelar_suscripcion:
-                cancelar_suscripcion(request, suscriptor) 
-        
-    else:
-        form = UserEditForm(instance=user)
-    
-    return render(request, 'core/edit.html', {'form': form, 'suscriptor': suscriptor})
+        for seguimiento in seguimientos:
+            nuevo_estado = request.POST.get(f'nuevo_estado_{seguimiento.id}')
+            seguimiento.estado = nuevo_estado
+            seguimiento.save()
+        return redirect('historial')
+
+    return render(request, 'core/cambiar_estado_seguimiento.html', {'seguimientos': seguimientos})
+

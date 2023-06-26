@@ -145,11 +145,12 @@
         </div>
 			<div class="row">
 				<!--poner el for aqui-->
-				{% for aux in listado %}
+				{% for aux in listado3 %}
+				{% if aux.stock > 0 %}
 					<div class="col-md-3 d-flex">
 						<div class="product ftco-animate">
 							{% if aux.imagen %}
-							<div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen.url }});">
+							<div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ aux.imagen }});">
 							{% else %}
 							<div class="img d-flex align-items-center justify-content-center" style="background-image: url(images/prod-1.jpg);"></div>
 							{% endif %}
@@ -161,11 +162,10 @@
 											<a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="d-flex align-items-center justify-content-center">
 											  <span class="flaticon-shopping-bag"></span>
 											</a>
-										</form>
+										  </form>
 										<a href="{% url 'update' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="fa fa-refresh"></span></a>
 										<a href="{% url 'product-details' aux.id %}" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
 										<a href="#" onclick="eliminarProducto({{ aux.id }})" class="d-flex align-items-center justify-content-center"><span class="fa fa-trash"></span></a>
-
 										{% elif user.is_authenticated %}
 										<form action="{% url 'agregar' aux.id %}" method="post">
 											{% csrf_token %}
@@ -189,20 +189,21 @@
 							</div>
 							<div class="text text-center">
 								<span class="sale">Stock: {{ aux.stock }}</span>
-								<span class="category">{{ aux.tipo }}</span>
+								<span class="category">{{ aux.tipo.descripcion }}</span>
 								<h2>{{ aux.nombre }}</h2>
 								<p class="mb-0"><span class="price">${{ aux.precio | intcomma }}</span> </p>
 							</div>
 						</div>
 					</div>
+					{% endif %}
 				{% endfor %}
 				<!--fin de el for-->
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-<!-- <a href="{% url 'product' %}" class="btn btn-primary d-block"> View All Products <span class="fa fa-long-arrow-right"></span></a> -->
-					</div>
-				</div>
+
 			</div>
+			<div class="row justify-content-center text-center">
+				<a href="{% url 'product' %}" class="btn btn-primary">View All Products <span class="fa fa-long-arrow-right"></span></a>
+			</div>
+			
 		</section>
   
 		<section class="ftco-section testimony-section img" style="background-image: url({% static 'core/images/fondo1.jpeg' %});">
