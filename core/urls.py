@@ -8,6 +8,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('productos', ProductoViewset)
 router.register('tipo_productos', TipoProductoViewset)
+router.register('cupon', CuponViewset)
 
 
 urlpatterns = [

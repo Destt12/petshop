@@ -17,3 +17,7 @@ class ProductoSerializer(serializers.ModelSerializer):
         model = Producto
         fields = '__all__'
 
+class CuponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cupon
+        fields = '__all__'

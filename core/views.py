@@ -14,7 +14,9 @@ import requests
 
 # Create your views here.
 #VIEWSET QUE SE ENCARGA DE INTERCAMBIAR LA DATA
-
+class CuponViewset(viewsets.ModelViewSet):
+    queryset = Cupon.objects.all()
+    serializer_class = CuponSerializer
 
 class ProductoViewset(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
