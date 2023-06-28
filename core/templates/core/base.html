@@ -48,9 +48,14 @@
                         <a class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle fa fa-user" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;"> {{ request.user.username }}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
+                                {% if user.is_authenticated and user.is_staff %}
                                 <a class="dropdown-item" href="{% url 'edit' %}">Settings</a>
                                 <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesion</a>
-
+                                <a class="dropdown-item" href="{% url 'cambiar_estado_seguimiento' %}">Seguimiento</a>
+                                {% else %}
+                                <a class="dropdown-item" href="{% url 'edit' %}">Settings</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesion</a>
+                                {% endif %}
                             </div>
                         </a>
                     {% else %}
